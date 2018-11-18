@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My App</title>
+        <script src="http://localhost:8080/auth/js/keycloak.js"></script>
+        <script src="/js/keycloak_init.js"></script>
+    </head>
+    <body>
+        <script>
+            KEYCLOAK_READY.ready(() => {
+                let p = document.createElement("p");
+                var t = document.createTextNode("Hello " + KEYCLOAK.idTokenParsed.given_name);
+                p.appendChild(t);
+
+                let a = document.createElement("a");
+                a.setAttribute('href', KEYCLOAK.createLogoutUrl());
+                a.appendChild(document.createTextNode('Logout'));
+
+                document.body.appendChild(p);
+                document.body.appendChild(a);
+
+                console.log(KEYCLOAK.idTokenParsed);
+            });
+        </script>
+    </body>
+</html>
+

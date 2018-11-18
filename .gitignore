@@ -1,0 +1,8 @@
+vendor/
+composer.lock
+
+/.idea
+/.vscode
+/.env
+
+/public/keycloak.json
