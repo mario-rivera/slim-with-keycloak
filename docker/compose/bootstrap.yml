@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  bootstrap:
+    network_mode: "none"
+    image: busybox:1.29
+    volumes: 
+      - .:/app
+    working_dir: /app
+    environment:
+      MARIADB_DATA_PATH: ./docker/mariadb/data
+    command: sh /app/docker/shell/bootstrap.sh

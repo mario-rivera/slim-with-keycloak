@@ -1,4 +1,4 @@
 #!/bin/bash
-/www/docker/shell/wait-for-it.sh -t 150 $TELNET_HOST:$TELNET_PORT
+/www/docker/shell/wait-for-it.sh -t 150 $KEYCLOAK_HOST:$KEYCLOAK_PORT
 
 nginx -g "daemon off;"

@@ -2,6 +2,8 @@ FROM php:7.1-fpm
 
 ENV WORKDIR /www
 
+WORKDIR ${WORKDIR}
+
 RUN apt-get update && apt-get install -y \
 git \
 zlib1g-dev
@@ -25,5 +27,3 @@ COPY ./xdebug/xdebug.config.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.
 COPY ./conf/php.ini-development /usr/local/etc/php/php.ini
 
 RUN rm -rf /var/lib/apt/lists/*
-
-WORKDIR ${WORKDIR}

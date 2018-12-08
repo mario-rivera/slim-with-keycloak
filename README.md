@@ -1,23 +1,28 @@
 # Slim PHP with Keycloak Authentication
 
-### Requirements
+## Requirements
 
 * docker-compose (version 3.7)
 * docker
 
-### Before first docker-compose
+## Getting Started
 
-Copy the contents of the .env.dist file and replace values accordingly
+**Before running for the first time, execute the bootstrap script:**\
+*(needs to be run only once)*
+
 ```bash
-$ cat .env.dist > .env
+$ docker-compose \
+-f ./docker/compose/bootstrap.yml \
+--project-directory $(pwd) \
+run --rm --user $(id -u):$(id -g) bootstrap
 ```
 
-### Run the application
+## Run the application
 
 Run command: *(user id prefix is to avoid running as root)*
 ```bash
 $ CURRENT_UID=$(id -u):$(id -g) docker-compose up -d
 ```
 
-### License
+## License
 [MIT](https://choosealicense.com/licenses/mit/)

@@ -1,8 +1,12 @@
-vendor/
-composer.lock
-
-/.idea
+###> ide ###
 /.vscode
-/.env
+/.idea
+###< ide ###
 
-/public/keycloak.json
+###> application ###
+.env
+composer.lock
+vendor/
+public/keycloak.json
+docker/mariadb/data
+###< application ###
