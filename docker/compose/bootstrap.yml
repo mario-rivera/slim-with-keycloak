@@ -9,4 +9,5 @@ services:
     working_dir: /app
     environment:
       MARIADB_DATA_PATH: ./docker/mariadb/data
+      JWT_DATA_PATH: ./jwt
     command: sh /app/docker/shell/bootstrap.sh

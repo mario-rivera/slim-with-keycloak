@@ -4,21 +4,21 @@ ENV WORKDIR /www
 
 WORKDIR ${WORKDIR}
 
-RUN apt-get update && apt-get install -y \
-git \
-zlib1g-dev
-
 # install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
 && php -r "unlink('composer-setup.php');"
 
+RUN apt-get update && apt-get install -y \
+git \
+zlib1g-dev \
+libgmp-dev
+
 # install php extensions
 RUN docker-php-ext-install \
-zip
-
-# install pecl extensions
-RUN pecl install xdebug \
+zip \
+gmp \
+&& pecl install xdebug \
 && docker-php-ext-enable xdebug
 
 # Xdebug Config

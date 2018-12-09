@@ -32,20 +32,21 @@ services:
       DB_USER: *db_user
       DB_PASSWORD: *db_password
     ports:
-      - "8080:8080"
+      - "${KEYCLOAK_PORT}:8080"
     entrypoint: bash /usr/docker/shell/keycloak.sh
     networks: 
       - mrivera
 
   php-fpm:
     build: ./docker/php
-    image: mrivera/php-fpm:7.1
+    image: mrivera/php-fpm:7.1-jwt
     container_name: mrivera-phpfpm
     volumes:
       - .:/www
     environment:
-      KEYCLOAK_HOST: localhost
-      KEYCLOAK_PORT: 8080
+      KEYCLOAK_HOST: *keycloak_container
+      KEYCLOAK_PUBLIC_HOST: ${KEYCLOAK_PUBLIC_HOST}
+      KEYCLOAK_PORT: ${KEYCLOAK_PORT}
     networks: 
       - mrivera
     user: ${CURRENT_UID}
@@ -61,7 +62,7 @@ services:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     environment:
       KEYCLOAK_HOST: *keycloak_container
-      KEYCLOAK_PORT: 8080
+      KEYCLOAK_PORT: ${KEYCLOAK_PORT}
     networks: 
       - mrivera
     command: bash /www/docker/shell/nginx.sh
