@@ -3,7 +3,6 @@ version: '3.7'
 services:
   mariadb:
     image: mariadb:10.3.11
-    container_name: &db_container keycloak_mariadb
     restart: always
     volumes:
       - ./docker/mariadb/data:/var/lib/mysql
@@ -14,11 +13,10 @@ services:
       MYSQL_USER: &db_user ${MYSQL_USER}
       MYSQL_PASSWORD: &db_password ${MYSQL_PASSWORD}
     networks: 
-      - mrivera
+      - default
 
   keycloak:
-    image: jboss/keycloak:4.6.0.Final
-    container_name: &keycloak_container keycloak_server
+    image: jboss/keycloak:8.0.1
     volumes:
       - ./docker:/usr/docker
     environment:
@@ -26,7 +24,7 @@ services:
       KEYCLOAK_USER: ${KEYCLOAK_USER}
       KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
       DB_VENDOR: mariadb
-      DB_ADDR: *db_container
+      DB_ADDR: mariadb
       DB_PORT: 3306
       DB_DATABASE: *db_name
       DB_USER: *db_user
@@ -35,38 +33,25 @@ services:
       - "${KEYCLOAK_PORT}:8080"
     entrypoint: bash /usr/docker/shell/keycloak.sh
     networks: 
-      - mrivera
+      - default
 
-  php-fpm:
-    build: ./docker/php
-    image: mrivera/php-fpm:7.1-jwt
-    container_name: mrivera-phpfpm
+  webserver:
+    image: mariort/php-nginx:3.0
     volumes:
       - .:/www
-    environment:
-      KEYCLOAK_HOST: *keycloak_container
-      KEYCLOAK_PUBLIC_HOST: ${KEYCLOAK_PUBLIC_HOST}
-      KEYCLOAK_PORT: ${KEYCLOAK_PORT}
-    networks: 
-      - mrivera
-    user: ${CURRENT_UID}
-    command: bash /www/docker/shell/php-fpm.sh
-    
-  nginx:
-    image: nginx:1.15
-    container_name: mrivera-nginx
     ports:
       - "8000:80"
-    volumes:
-      - .:/www
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-    environment:
-      KEYCLOAK_HOST: *keycloak_container
-      KEYCLOAK_PORT: ${KEYCLOAK_PORT}
+    environment: 
+      - XDEBUG_CONFIG
+      - KEYCLOAK_HOST=keycloak
+      - KEYCLOAK_PUBLIC_HOST=${KEYCLOAK_PUBLIC_HOST}
+      - KEYCLOAK_PORT=${KEYCLOAK_PORT}
+    # env_file:
+    #   - .env
+    command: sh /www/docker/shell/webserver.sh
     networks: 
-      - mrivera
-    command: bash /www/docker/shell/nginx.sh
-      
+      - default
+        
 networks:
-  mrivera:
+  default:
     name: mrivera/dev

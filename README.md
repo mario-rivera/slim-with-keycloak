@@ -1,27 +1,30 @@
 # Slim PHP with Keycloak Authentication
 
-## Requirements
-
-* docker-compose (version 3.7)
-* docker
-
 ## Getting Started
 
-**Before running for the first time, execute the bootstrap script:**\
+1. **Execute the bootstrap script:**\
 *(needs to be run only once)*
 
+   ```bash
+   $ docker-compose \
+   -f ./docker/services/bootstrap.yml \
+   --project-directory $(pwd) \
+   run --rm --user $(id -u):$(id -g) bootstrap
+   ```
+
+2. **Install composer dependencies. Read more [here](./docs/README.composer.md)**
+
+
+## Start the keycloak server
+
 ```bash
-$ docker-compose \
--f ./docker/compose/bootstrap.yml \
---project-directory $(pwd) \
-run --rm --user $(id -u):$(id -g) bootstrap
+$ docker-compose up -d mariadb keycloak
 ```
 
-## Run the application
+## Run the webserver
 
-Run command: *(user id prefix is to avoid running as root)*
 ```bash
-$ CURRENT_UID=$(id -u):$(id -g) docker-compose up -d
+$ docker-compose up -d webserver
 ```
 
 ## License

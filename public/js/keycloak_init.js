@@ -35,6 +35,8 @@ const KEYCLOAK_READY = new KeycloakReady();
 
 const KEYCLOAK = Keycloak('/keycloak.json');
 
+console.log(KEYCLOAK);
+
 KEYCLOAK.init({ onLoad: 'login-required' })
 .error(() => alert('Failed to initialize auth system'));
 

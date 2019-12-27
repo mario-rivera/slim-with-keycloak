@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  console:
+    image: composer:1.8
+    environment:
+      - COMPOSER_AUTH
+    working_dir: /code
+    volumes:
+      - .:/code
+    command: bash
+    network_mode: bridge
+
+  install:
+    image: composer:1.8
+    environment:
+      - COMPOSER_AUTH
+    working_dir: /code
+    volumes:
+      - .:/code
+    command: composer install -n --ignore-platform-reqs --no-scripts
+    network_mode: bridge
+    
+  update:
+    image: composer:1.8
+    environment:
+      - COMPOSER_AUTH
+    working_dir: /code
+    volumes:
+      - .:/code
+    command: composer update -n --ignore-platform-reqs --no-scripts
+    network_mode: bridge
