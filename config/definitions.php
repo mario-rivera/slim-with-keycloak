@@ -8,7 +8,8 @@ return [
     'jwtDir' => dirname(__DIR__) . "/jwt",
     Dwoo\Core::class => 
         DI\create()
-        ->method('setTemplateDir', dirname(__DIR__) . '/templates'),
+        ->method('setTemplateDir', dirname(__DIR__) . '/templates')
+        ->method('setCompileDir', '/tmp'),
     MRivera\Keycloak\KeycloakClient::class =>
         DI\autowire()
         ->constructorParameter('config', [

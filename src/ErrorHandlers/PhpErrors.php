@@ -17,9 +17,9 @@ class PhpErrors
             case E_CORE_ERROR: 
             case E_COMPILE_ERROR:
             case E_USER_ERROR:
+            default:
                 die($errstr);
                 break;
-            default:
         }
     }
 
