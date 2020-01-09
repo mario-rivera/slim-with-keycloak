@@ -3,8 +3,8 @@
 $app->get('/', [\SlimApp\Controllers\HomeController::class, 'getHome']);
 
 $app->group('', function() {
-
-    $this->get('/verify', function ($request, $response) {
+    
+    $this->get('/verify/', function ($request, $response) {
 
         return $response->withJson('verified');
     });

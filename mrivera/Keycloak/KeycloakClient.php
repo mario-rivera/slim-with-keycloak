@@ -5,7 +5,7 @@ use GuzzleHttp\Client;
 
 class KeycloakClient extends Client
 {
-    private $jwsKeysEndpoint = '/auth/realms/App/protocol/openid-connect/certs';
+    private $jwsKeysEndpoint = '/auth/realms/demo/protocol/openid-connect/certs';
 
     public function getOIDKeys(): string
     {
